@@ -21,3 +21,5 @@ DraggableFab(
         ),
       );
 ```
+
+![screenshot.gif](.example/screenshots/demo.gif)
