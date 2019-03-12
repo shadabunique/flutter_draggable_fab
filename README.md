@@ -22,4 +22,4 @@ DraggableFab(
       );
 ```
 
-![screenshot.gif](example/screenshots/demo.gif)
+![demo.gif](https://github.com/shadabunique/flutter_draggable_fab/blob/master/example/screenshots/demo.gif)
