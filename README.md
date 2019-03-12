@@ -22,4 +22,4 @@ DraggableFab(
       );
 ```
 
-![screenshot.gif](.example/screenshots/demo.gif)
+![screenshot.gif](example/screenshots/demo.gif)
