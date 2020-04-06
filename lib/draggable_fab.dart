@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 /// the edge of the screen - be it left,top, right,bottom
 class DraggableFab extends StatefulWidget {
   final Widget child;
+  final Offset initPosition;
+  final double securityBottom;
 
-  const DraggableFab({Key key, this.child})
+  const DraggableFab({Key key, this.child, this.initPosition, this.securityBottom:0})
       : assert(child != null),
         super(key: key);
 
@@ -18,6 +20,7 @@ class DraggableFab extends StatefulWidget {
 }
 
 class _DraggableFabState extends State<DraggableFab> {
+  
   Size _widgetSize;
   double _left, _top;
   double _screenWidth, _screenHeight;
@@ -28,10 +31,15 @@ class _DraggableFabState extends State<DraggableFab> {
     super.initState();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _getWidgetSize(context));
+
   }
 
   void _getWidgetSize(BuildContext context) {
     _widgetSize = context.size;
+
+    if (widget.initPosition != null) {    
+      _calculatePosition(widget.initPosition);
+    }
   }
 
   @override
@@ -54,6 +62,10 @@ class _DraggableFabState extends State<DraggableFab> {
   }
 
   void _handleDragEnded(DraggableDetails draggableDetails) {
+    this._calculatePosition(draggableDetails.offset);
+  }
+
+  void _calculatePosition(Offset targetOffset) {
     if (_screenWidthMid == null || _screenHeightMid == null) {
       Size screenSize = MediaQuery.of(context).size;
       _screenWidth = screenSize.width;
@@ -62,45 +74,40 @@ class _DraggableFabState extends State<DraggableFab> {
       _screenHeightMid = _screenHeight / 2;
     }
 
-    switch (_getAnchor(draggableDetails.offset)) {
+    switch (_getAnchor(targetOffset)) {
       case Anchor.LEFT_FIRST:
         this._left = _widgetSize.width / 2;
-        this._top = max(_widgetSize.height / 2, draggableDetails.offset.dy);
+        this._top = max(_widgetSize.height / 2, targetOffset.dy);
         break;
       case Anchor.TOP_FIRST:
-        this._left = max(_widgetSize.width / 2, draggableDetails.offset.dx);
+        this._left = max(_widgetSize.width / 2, targetOffset.dx);
         this._top = _widgetSize.height / 2;
         break;
       case Anchor.RIGHT_SECOND:
         this._left = _screenWidth - _widgetSize.width;
-        this._top = max(_widgetSize.height, draggableDetails.offset.dy);
+        this._top = max(_widgetSize.height, targetOffset.dy);
         break;
       case Anchor.TOP_SECOND:
-        this._left =
-            min(_screenWidth - _widgetSize.width, draggableDetails.offset.dx);
+        this._left = min(_screenWidth - _widgetSize.width, targetOffset.dx);
         this._top = _widgetSize.height / 2;
         break;
       case Anchor.LEFT_THIRD:
         this._left = _widgetSize.width / 2;
-        this._top =
-            min(_screenHeight - _widgetSize.height, draggableDetails.offset.dy);
+        this._top = min(_screenHeight - _widgetSize.height - widget.securityBottom, targetOffset.dy);
         break;
       case Anchor.BOTTOM_THIRD:
-        this._left = max(_widgetSize.width / 2, draggableDetails.offset.dx);
-        this._top = _screenHeight - _widgetSize.height;
+        this._left = _widgetSize.width / 2;
+        this._top = _screenHeight - _widgetSize.height - widget.securityBottom;
         break;
       case Anchor.RIGHT_FOURTH:
         this._left = _screenWidth - _widgetSize.width;
-        this._top =
-            min(_screenHeight - _widgetSize.height, draggableDetails.offset.dy);
+        this._top = min(_screenHeight - _widgetSize.height - widget.securityBottom, targetOffset.dy);
         break;
       case Anchor.BOTTOM_FOURTH:
-        this._left =
-            min(_screenWidth - _widgetSize.width, draggableDetails.offset.dx);
-        this._top = _screenHeight - _widgetSize.height;
+        this._left =  _screenWidth - _widgetSize.width;
+        this._top = _screenHeight - _widgetSize.height - widget.securityBottom;
         break;
     }
-
     setState(() {});
   }
 
