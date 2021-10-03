@@ -10,3 +10,7 @@
 
 * Migrated to support null safety
 
+## [0.1.3] - October 03, 2021
+
+* Formatting changes
+
