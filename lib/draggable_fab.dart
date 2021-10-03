@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 /// Draggable FAB widget which is always aligned to
 /// the edge of the screen - be it left,top, right,bottom
 class DraggableFab extends StatefulWidget {
-  final Widget child;
-  final Offset initPosition;
+  final Widget? child;
+  final Offset? initPosition;
   final double securityBottom;
 
-  const DraggableFab({Key key, this.child, this.initPosition, this.securityBottom:0})
+  const DraggableFab({Key? key, this.child, this.initPosition, this.securityBottom:0})
       : assert(child != null),
         super(key: key);
 
@@ -21,24 +21,24 @@ class DraggableFab extends StatefulWidget {
 
 class _DraggableFabState extends State<DraggableFab> {
   
-  Size _widgetSize;
-  double _left, _top;
-  double _screenWidth, _screenHeight;
-  double _screenWidthMid, _screenHeightMid;
+  late Size _widgetSize;
+  double? _left, _top;
+  double _screenWidth=0.0, _screenHeight =0.0;
+  double? _screenWidthMid, _screenHeightMid;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
+    WidgetsBinding.instance!
         .addPostFrameCallback((_) => _getWidgetSize(context));
 
   }
 
   void _getWidgetSize(BuildContext context) {
-    _widgetSize = context.size;
+    _widgetSize = context.size!;
 
     if (widget.initPosition != null) {    
-      _calculatePosition(widget.initPosition);
+      _calculatePosition(widget.initPosition!);
     }
   }
 
@@ -49,8 +49,8 @@ class _DraggableFabState extends State<DraggableFab> {
         left: this._left,
         top: this._top,
         child: Draggable(
-          child: widget.child,
-          feedback: widget.child,
+          child: widget.child!,
+          feedback: widget.child!,
           onDragEnd: _handleDragEnded,
           childWhenDragging: Container(
             width: 0.0,
@@ -113,15 +113,15 @@ class _DraggableFabState extends State<DraggableFab> {
 
   /// Computes the appropriate anchor screen edge for the widget
   Anchor _getAnchor(Offset position) {
-    if (position.dx < _screenWidthMid && position.dy < _screenHeightMid) {
+    if (position.dx < _screenWidthMid! && position.dy < _screenHeightMid!) {
       return position.dx < position.dy ? Anchor.LEFT_FIRST : Anchor.TOP_FIRST;
-    } else if (position.dx >= _screenWidthMid &&
-        position.dy < _screenHeightMid) {
+    } else if (position.dx >= _screenWidthMid! &&
+        position.dy < _screenHeightMid!) {
       return _screenWidth - position.dx < position.dy
           ? Anchor.RIGHT_SECOND
           : Anchor.TOP_SECOND;
-    } else if (position.dx < _screenWidthMid &&
-        position.dy >= _screenHeightMid) {
+    } else if (position.dx < _screenWidthMid! &&
+        position.dy >= _screenHeightMid!) {
       return position.dx < _screenHeight - position.dy
           ? Anchor.LEFT_THIRD
           : Anchor.BOTTOM_THIRD;
