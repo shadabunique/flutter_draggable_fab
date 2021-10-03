@@ -4,7 +4,7 @@ A Draggable FAB wrapper widget which can dragged to any edge of the screen.
 
 ## Installation
 
-Add `draggable_fab: ^0.1.2` in your `pubspec.yaml` dependencies. And import it:
+Add `draggable_fab: ^0.1.3` in your `pubspec.yaml` dependencies. And import it:
 
 ```dart
 import 'package:draggable_fab/draggable_fab.dart';
