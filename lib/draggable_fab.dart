@@ -11,7 +11,8 @@ class DraggableFab extends StatefulWidget {
   final Offset? initPosition;
   final double securityBottom;
 
-  const DraggableFab({Key? key, this.child, this.initPosition, this.securityBottom:0})
+  const DraggableFab(
+      {Key? key, this.child, this.initPosition, this.securityBottom: 0})
       : assert(child != null),
         super(key: key);
 
@@ -20,10 +21,9 @@ class DraggableFab extends StatefulWidget {
 }
 
 class _DraggableFabState extends State<DraggableFab> {
-  
   late Size _widgetSize;
   double? _left, _top;
-  double _screenWidth=0.0, _screenHeight =0.0;
+  double _screenWidth = 0.0, _screenHeight = 0.0;
   double? _screenWidthMid, _screenHeightMid;
 
   @override
@@ -31,13 +31,12 @@ class _DraggableFabState extends State<DraggableFab> {
     super.initState();
     WidgetsBinding.instance!
         .addPostFrameCallback((_) => _getWidgetSize(context));
-
   }
 
   void _getWidgetSize(BuildContext context) {
     _widgetSize = context.size!;
 
-    if (widget.initPosition != null) {    
+    if (widget.initPosition != null) {
       _calculatePosition(widget.initPosition!);
     }
   }
@@ -93,7 +92,9 @@ class _DraggableFabState extends State<DraggableFab> {
         break;
       case Anchor.LEFT_THIRD:
         this._left = _widgetSize.width / 2;
-        this._top = min(_screenHeight - _widgetSize.height - widget.securityBottom, targetOffset.dy);
+        this._top = min(
+            _screenHeight - _widgetSize.height - widget.securityBottom,
+            targetOffset.dy);
         break;
       case Anchor.BOTTOM_THIRD:
         this._left = _widgetSize.width / 2;
@@ -101,10 +102,12 @@ class _DraggableFabState extends State<DraggableFab> {
         break;
       case Anchor.RIGHT_FOURTH:
         this._left = _screenWidth - _widgetSize.width;
-        this._top = min(_screenHeight - _widgetSize.height - widget.securityBottom, targetOffset.dy);
+        this._top = min(
+            _screenHeight - _widgetSize.height - widget.securityBottom,
+            targetOffset.dy);
         break;
       case Anchor.BOTTOM_FOURTH:
-        this._left =  _screenWidth - _widgetSize.width;
+        this._left = _screenWidth - _widgetSize.width;
         this._top = _screenHeight - _widgetSize.height - widget.securityBottom;
         break;
     }
