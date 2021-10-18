@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 /// Draggable FAB widget which is always aligned to
 /// the edge of the screen - be it left,top, right,bottom
 class DraggableFab extends StatefulWidget {
-  final Widget? child;
+  final Widget child;
   final Offset? initPosition;
   final double securityBottom;
 
   const DraggableFab(
-      {Key? key, this.child, this.initPosition, this.securityBottom: 0})
-      : assert(child != null),
-        super(key: key);
+      {Key? key, required this.child, this.initPosition, this.securityBottom: 0})
+      : super(key: key);
 
   @override
   _DraggableFabState createState() => _DraggableFabState();
@@ -48,8 +47,8 @@ class _DraggableFabState extends State<DraggableFab> {
         left: this._left,
         top: this._top,
         child: Draggable(
-          child: widget.child!,
-          feedback: widget.child!,
+          child: widget.child,
+          feedback: widget.child,
           onDragEnd: _handleDragEnded,
           childWhenDragging: Container(
             width: 0.0,
