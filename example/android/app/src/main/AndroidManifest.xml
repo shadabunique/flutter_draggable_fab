@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shadabunique.flutter.draggablefabexample">
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="draggable_fab_example"
         android:icon="@mipmap/ic_launcher">
