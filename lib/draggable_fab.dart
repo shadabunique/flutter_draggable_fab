@@ -74,7 +74,7 @@ class _DraggableFabState extends State<DraggableFab> {
 
     switch (_getAnchor(targetOffset)) {
       case Anchor.LEFT_FIRST:
-        this._left = _widgetSize.width / 2;
+        this._left = 0;
         this._top = max(_widgetSize.height / 2, targetOffset.dy);
         break;
       case Anchor.TOP_FIRST:
@@ -90,7 +90,7 @@ class _DraggableFabState extends State<DraggableFab> {
         this._top = _widgetSize.height / 2;
         break;
       case Anchor.LEFT_THIRD:
-        this._left = _widgetSize.width / 2;
+        this._left = 0;
         this._top = min(
             _screenHeight - _widgetSize.height - widget.securityBottom,
             targetOffset.dy);
