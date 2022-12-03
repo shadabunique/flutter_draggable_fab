@@ -1,11 +1,11 @@
 name: draggable_fab
 description: A Draggable FAB wrapper widget which can dragged to any edge of the screen.
-version: 0.1.4
+version: 0.2.0
 author: Mohammad Shadab Ansari<shadabunique@gmail.com>
 homepage: https://github.com/shadabunique/flutter_draggable_fab
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
   flutter:
