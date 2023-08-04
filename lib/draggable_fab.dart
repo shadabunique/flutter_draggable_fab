@@ -9,17 +9,19 @@ import 'package:flutter/material.dart';
 class DraggableFab extends StatefulWidget {
   final Widget child;
   final Offset? initPosition;
-  final double securityBottom;
+  final double paddingBottom;
+  final double paddingTop;
+
 
   const DraggableFab(
-      {Key? key, required this.child, this.initPosition, this.securityBottom: 0})
+      {Key? key, required this.child, this.initPosition, this.paddingBottom = 0, this.paddingTop=0})
       : super(key: key);
 
   @override
-  _DraggableFabState createState() => _DraggableFabState();
+  DraggableFabState createState() => DraggableFabState();
 }
 
-class _DraggableFabState extends State<DraggableFab> {
+class DraggableFabState extends State<DraggableFab> {
   late Size _widgetSize;
   double? _left, _top;
   double _screenWidth = 0.0, _screenHeight = 0.0;
@@ -28,7 +30,7 @@ class _DraggableFabState extends State<DraggableFab> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _getWidgetSize(context));
   }
 
@@ -44,23 +46,23 @@ class _DraggableFabState extends State<DraggableFab> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Positioned(
-        left: this._left,
-        top: this._top,
+        left: _left,
+        top: _top,
         child: Draggable(
-          child: widget.child,
           feedback: widget.child,
           onDragEnd: _handleDragEnded,
-          childWhenDragging: Container(
+          childWhenDragging: const SizedBox(
             width: 0.0,
             height: 0.0,
           ),
+          child: widget.child,
         ),
       )
     ]);
   }
 
   void _handleDragEnded(DraggableDetails draggableDetails) {
-    this._calculatePosition(draggableDetails.offset);
+    _calculatePosition(draggableDetails.offset);
   }
 
   void _calculatePosition(Offset targetOffset) {
@@ -74,40 +76,40 @@ class _DraggableFabState extends State<DraggableFab> {
 
     switch (_getAnchor(targetOffset)) {
       case Anchor.LEFT_FIRST:
-        this._left = _widgetSize.width / 2;
-        this._top = max(_widgetSize.height / 2, targetOffset.dy);
+        _left = _widgetSize.width / 2;
+        _top = max(_widgetSize.height / 2, targetOffset.dy);
         break;
       case Anchor.TOP_FIRST:
-        this._left = max(_widgetSize.width / 2, targetOffset.dx);
-        this._top = _widgetSize.height / 2;
+        _left = max(_widgetSize.width / 2, targetOffset.dx);
+        _top = (_widgetSize.height) / 2 + widget.paddingTop;
         break;
       case Anchor.RIGHT_SECOND:
-        this._left = _screenWidth - _widgetSize.width;
-        this._top = max(_widgetSize.height, targetOffset.dy);
+        _left = _screenWidth - _widgetSize.width;
+        _top = max(_widgetSize.height, targetOffset.dy);
         break;
       case Anchor.TOP_SECOND:
-        this._left = min(_screenWidth - _widgetSize.width, targetOffset.dx);
-        this._top = _widgetSize.height / 2;
+        _left = min(_screenWidth - _widgetSize.width, targetOffset.dx);
+        _top = (_widgetSize.height / 2) + widget.paddingTop;
         break;
       case Anchor.LEFT_THIRD:
-        this._left = _widgetSize.width / 2;
-        this._top = min(
-            _screenHeight - _widgetSize.height - widget.securityBottom,
+        _left = _widgetSize.width / 2;
+        _top = min(
+            _screenHeight - _widgetSize.height - widget.paddingBottom,
             targetOffset.dy);
         break;
       case Anchor.BOTTOM_THIRD:
-        this._left = _widgetSize.width / 2;
-        this._top = _screenHeight - _widgetSize.height - widget.securityBottom;
+        _left = _widgetSize.width / 2;
+        _top = _screenHeight - _widgetSize.height - widget.paddingBottom;
         break;
       case Anchor.RIGHT_FOURTH:
-        this._left = _screenWidth - _widgetSize.width;
-        this._top = min(
-            _screenHeight - _widgetSize.height - widget.securityBottom,
+        _left = _screenWidth - _widgetSize.width;
+        _top = min(
+            _screenHeight - _widgetSize.height - widget.paddingBottom,
             targetOffset.dy);
         break;
       case Anchor.BOTTOM_FOURTH:
-        this._left = _screenWidth - _widgetSize.width;
-        this._top = _screenHeight - _widgetSize.height - widget.securityBottom;
+        _left = _screenWidth - _widgetSize.width;
+        _top = _screenHeight - _widgetSize.height - widget.paddingBottom;
         break;
     }
     setState(() {});
