@@ -4,10 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('adds one to input values', () {
-    final draggableFab = DraggableFab(
+    const draggableFab = DraggableFab(
       child: FloatingActionButton(
-        child: Icon(Icons.chat),
         onPressed: null,
+        child: Icon(Icons.chat),
       ),
     );
     expect(true, draggableFab.child is FloatingActionButton);
